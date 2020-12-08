@@ -18,9 +18,9 @@ pipeline {
       steps{
         sh 'docker -v'
         echo "Database engine is ${imagename}"
-        //script {
-        //  dockerImage = docker.build imagename
-        //}
+        script {
+          dockerImage = docker.build imagename
+        }
       }
     }
     /*
