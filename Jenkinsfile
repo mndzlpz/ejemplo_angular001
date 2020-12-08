@@ -16,25 +16,26 @@ pipeline {
     */
     stage('Building image') {
       steps{
-        sh 'docker -v'
-        echo "Database engine is ${imagename}"
+        echo "Construyendo Imagen: ${imagename}"
         script {
           dockerImage = docker.build ${imagename}
         }
       }
     }
-    /*
+    
     stage('Deploy Image') {
       steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
+        sh 'Deploy...'
+        //script {
+        //  docker.withRegistry( '', registryCredential ) {
+        //    dockerImage.push("$BUILD_NUMBER")
+        //     dockerImage.push('latest')
 
-          }
+        //  }
         }
       }
     }
+    /*
     stage('Remove Unused docker image') {
       steps{
         sh "docker rmi $imagename:$BUILD_NUMBER"
