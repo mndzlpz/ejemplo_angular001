@@ -1,7 +1,7 @@
 pipeline {
   environment {
     registry = "mndzdocker/ejemplo-angular"
-    registryCredential = 'dockerhub'
+    registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
   }
   agent any
@@ -26,13 +26,13 @@ pipeline {
     stage('Deploy Image') {
       steps{
         echo 'Deploy...'
-        //script {
-        //  docker.withRegistry( '', registryCredential ) {
+        script {
+          docker.withRegistry( '', registryCredential ) {
             //-dockerImage.push("$BUILD_NUMBER")
-         //    dockerImage.push()
+            dockerImage.push()
 
-         // }
-        //}
+          }
+        }
       }
     }
     /*
