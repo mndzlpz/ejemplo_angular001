@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    imagename = "nombre"
+    imagename = "docker_angular"
     registryCredential = ''
     dockerImage = ''
   }
@@ -19,7 +19,7 @@ pipeline {
         sh 'docker -v'
         echo "Database engine is ${imagename}"
         script {
-          dockerImage = docker.build imagename
+          dockerImage = docker.build ${imagename}
         }
       }
     }
