@@ -49,8 +49,8 @@ pipeline {
         echo 'Deploy K8S...'
 	      kubernetesDeploy(
 		      configs:'deploy.yml',
-		      kubeconfId: 'kubernetes_config_cluster',
-		      enableConfigSubstitution: true,
+		      kubeconfigId: 'kubernetes_config_cluster',
+		      enableConfigSubstitution: true
 	      )
       }
     }
