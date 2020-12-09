@@ -2,6 +2,7 @@ pipeline {
   environment {
     registry = "mndzdocker/ejemplo-angular"
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
+    nameImage="${registry}"+ ":$BUILD_NUMBER"
     dockerImage = ''
   }
   agent any
@@ -16,9 +17,10 @@ pipeline {
     */
     stage('Building image') {
       steps{
-        echo "Construyendo Imagen: ${registry}"+ ":$BUILD_NUMBER"
+        echo "Construyendo Imagen: "
         script {
-          dockerImage = docker.build "${registry}"+ ":$BUILD_NUMBER"
+          //dockerImage = docker.build "${nameImage}"
+          dockerImage = docker.build "${registry}"
         }
       }
     }
@@ -28,8 +30,8 @@ pipeline {
         echo 'Deploy...'
         script {
           docker.withRegistry( '', registryCredential ) {
-            //-dockerImage.push("$BUILD_NUMBER")
-            dockerImage.push()
+          dockerImage.push("$BUILD_NUMBER")
+            //dockerImage.push()
 
           }
         }
