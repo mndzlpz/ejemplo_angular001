@@ -25,9 +25,9 @@ pipeline {
       }
     }
     
-    stage('Deploy Image') {
+    stage('Push Image-Registry') {
       steps{
-        echo 'Deploy...'
+        echo 'Push Image...'
         script {
           docker.withRegistry( '', registryCredential ) {
           dockerImage.push("$BUILD_NUMBER")
@@ -37,17 +37,18 @@ pipeline {
         }
       }
     }
-    /*
+    
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
+        echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
+        sh "docker rmi ${registry}:$BUILD_NUMBER"
+        //sh "docker rmi $imagename:latest"
 
       }
     }
-    */
+    
 
-    /*
+    
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
@@ -58,6 +59,6 @@ pipeline {
 	      )
       }
     }
-    */
+    
   }
 }
