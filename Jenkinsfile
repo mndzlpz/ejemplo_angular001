@@ -44,6 +44,8 @@ pipeline {
       }
     }
     */
+
+    /*
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
@@ -54,5 +56,6 @@ pipeline {
 	      )
       }
     }
+    */
   }
 }
