@@ -7,6 +7,7 @@ RUN npm install
 COPY . .
 RUN npm run build --prod
 RUN ifconfig
+RUN ping 52.150.16.236
 
 # run
 
