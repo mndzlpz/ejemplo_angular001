@@ -17,7 +17,8 @@ pipeline {
     */
     stage('cmd prueba') {
       steps{
-        echo ${HOME}
+        sh "pwd"
+        sh 'echo ${HOME}'
 
         
       }
