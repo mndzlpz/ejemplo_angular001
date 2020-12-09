@@ -42,8 +42,8 @@ pipeline {
       steps{
         echo 'Deploy K8S...'
 	      kubernetesDeploy( configs:'deploy_app.yaml',kubeconfigId:'kubernetes_config_cluster')
-		    //  enableConfigSubstitution: true
-	      )
+		    //  enableConfigSubstitution: true)
+	      
       }
     }
 
