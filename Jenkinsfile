@@ -15,6 +15,14 @@ pipeline {
       }
     }
     */
+    stage('cmd prueba') {
+      steps{
+        echo ${HOME}
+
+        
+      }
+    }
+
     stage('Building image') {
       steps{
         echo "Construyendo Imagen: "
