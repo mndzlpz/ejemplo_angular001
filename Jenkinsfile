@@ -10,7 +10,7 @@ pipeline {
 
     stage('cmd prueba') {
       steps{
-        sh "pwd"
+        sh "kubectl config view"
         sh 'echo ${HOME}'
       }
     }
@@ -41,7 +41,8 @@ pipeline {
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
-	      kubernetesDeploy( configs:'deploy_app.yaml',kubeconfigId:'kubernetes_config_cluster')
+	      sh ("kubectl apply -f deploy_app.yaml")
+        //kubernetesDeploy( configs:'deploy_app.yaml',kubeconfigId:'kubernetes_config_cluster')
 		    //  enableConfigSubstitution: true)
 	      
       }
