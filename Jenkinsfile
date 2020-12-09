@@ -7,20 +7,11 @@ pipeline {
   }
   agent any
   stages {
-    /*
-    stage('Cloning Git') {
-      steps {
-        git([url: 'URL', branch: 'master', credentialsId: 'Name_credenciales'])
 
-      }
-    }
-    */
     stage('cmd prueba') {
       steps{
         sh "pwd"
         sh 'echo ${HOME}'
-
-        
       }
     }
 
@@ -47,25 +38,21 @@ pipeline {
       }
     }
     
-    stage('Remove Unused docker image') {
+    stage("Deploy App K8S"){
+      steps{
+        echo 'Deploy K8S...'
+	      kubernetesDeploy( configs:'deploy_app.yaml',kubeconfigId:'kubernetes_config_cluster')
+		    //  enableConfigSubstitution: true
+	      )
+      }
+    }
+
+     stage('Remove Unused docker image') {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
         sh "docker rmi ${registry}:$BUILD_NUMBER"
 
-      }
-    }
-    
-
-    
-    stage("Deploy App K8S"){
-      steps{
-        echo 'Deploy K8S...'
-	      kubernetesDeploy(
-		      configs:'deploy_app.yaml',
-		      kubeconfigId: 'kubernetes_config_cluster',
-		      enableConfigSubstitution: true
-	      )
       }
     }
     
