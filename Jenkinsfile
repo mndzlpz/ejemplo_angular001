@@ -40,9 +40,9 @@ pipeline {
     
     stage('Remove Unused docker image') {
       steps{
-        echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
-        sh "docker rmi ${registry}:$BUILD_NUMBER"
-        //sh "docker rmi $imagename:latest"
+        //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
+        //sh "docker rmi ${registry}:$BUILD_NUMBER"
+        sh "docker rmi ${registry}:latest"
 
       }
     }
