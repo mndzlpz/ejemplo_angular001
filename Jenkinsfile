@@ -44,5 +44,13 @@ pipeline {
       }
     }
     */
+    stage("Deploy App K8S"){
+	    kubernetesDeploy(
+		    configs:'deploy.yml',
+		    kubeconfId: 'kubernetes_config_cluster',
+		    enableConfigSubstitution: true,
+	    )
+}
+
   }
 }
