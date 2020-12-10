@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-angular
+  name: ejemplo-angular
   namespace: default
 spec:
   replicas: 2
@@ -14,13 +14,13 @@ spec:
         bb: web
     spec:
       containers:
-      - name: app-angular
-        image: mndzdocker/ejemplo-angular
+      - name: ejemplo-angular
+        image: mndzdocker/ejemplo-angular:latest
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-angular
+  name: ejemplo-angular
   namespace: default
 spec:
   type: NodePort
