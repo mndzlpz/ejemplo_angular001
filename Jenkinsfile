@@ -52,7 +52,9 @@ pipeline {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
+        
         sh "docker rmi ${registry}:$BUILD_NUMBER"
+        sh "docker rmi ${registry}:latest"
 
       }
     }
