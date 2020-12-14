@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ejemplo-angular
-        image: mndzdocker/ejemplo-angular:latest
+        image: mndzdocker/ejemplo-angular
 ---
 apiVersion: v1
 kind: Service
