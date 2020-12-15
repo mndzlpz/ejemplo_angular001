@@ -42,8 +42,8 @@ pipeline {
         echo 'Deploy K8S...'
         sh ("sed -i 's/IMAGEN-K3s/${nameImage}:${BUILD_NUMBER}/g deploy_app.yaml")
         sh ("cat deploy_app.yaml")
-	      //sh ("kubectl apply -f deploy_app.yaml")
-        kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : k3s )
+	      sh ("kubectl apply -f deploy_app.yaml")
+        //kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : k3s )
 		    //  enableConfigSubstitution: true)
 	      
       }
