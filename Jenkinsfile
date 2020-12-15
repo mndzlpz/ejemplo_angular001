@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    ecrurl=''
+
     nameImage = "mndzdocker/ejemplo-angular"
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
@@ -28,7 +28,7 @@ pipeline {
       steps{
         echo "Push Image... $BUILD_NUMBER"
         script {
-          docker.withRegistry( ecrurl, registryCredential ) {
+          docker.withRegistry( '', registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
             dockerImage.push('latest')
           }
@@ -51,7 +51,7 @@ pipeline {
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
         
-        sh "docker rmi ${nameImage}:$BUILD_NUMBER"
+        sh "docker rmi ${nameImage}:${BUILD_NUMBER}"
         sh "docker rmi ${nameImage}:latest"
 
       }
