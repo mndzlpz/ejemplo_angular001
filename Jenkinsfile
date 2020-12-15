@@ -19,7 +19,7 @@ pipeline {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
         script {
-          dockerImage = docker.build "{$nameImage}"
+          dockerImage = docker.build "${nameImage}"
         }
       }
     }
