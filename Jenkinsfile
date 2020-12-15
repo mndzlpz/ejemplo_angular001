@@ -1,38 +1,36 @@
 pipeline {
   environment {
-    registry = "mndzdocker/ejemplo-angular"
+    ecrurl=''
+    nameImage = "mndzdocker/ejemplo-angular"
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
-    nameImage="${registry}"+ ":$BUILD_NUMBER"
     dockerImage = ''
   }
   agent any
   stages {
 
-    stage('cmd prueba') {
-      steps{
-        sh "kubectl config view"
-        sh 'echo ${HOME}'
-      }
-    }
+    //stage('cmd prueba') {
+    //  steps{
+    //    sh "kubectl config view"
+    //    sh 'echo ${HOME}'
+    //  }
+    //}
 
     stage('Building image') {
       steps{
-        echo "Construyendo Imagen: "
+        echo "Construyendo Imagen: $nameImage"
         script {
-          //dockerImage = docker.build "${nameImage}"
-          dockerImage = docker.build "${registry}"
+          dockerImage = docker.build "$nameImage"
         }
       }
     }
     
     stage('Push Image-Registry') {
       steps{
-        echo 'Push Image...'
+        echo 'Push Image... $BUILD_NUMBER'
         script {
-          docker.withRegistry( '', registryCredential ) {
-          dockerImage.push("$BUILD_NUMBER")
-            //dockerImage.push()
-
+          docker.withRegistry( ecrurl, registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+            dockerImage.push('latest')
           }
         }
       }
@@ -53,8 +51,8 @@ pipeline {
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
         
-        sh "docker rmi ${registry}:$BUILD_NUMBER"
-        sh "docker rmi ${registry}:latest"
+        sh "docker rmi $nameImage:$BUILD_NUMBER"
+        sh "docker rmi $registry:latest"
 
       }
     }
