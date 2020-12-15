@@ -4,6 +4,7 @@ pipeline {
     nameImage = "mndzdocker/ejemplo-angular"
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
+    k3s ='kubernetes_config_cluster'
   }
   agent any
   stages {
@@ -39,8 +40,10 @@ pipeline {
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
+        sh ("sed -i 's/IMAGEN-K3s/${nameImage}:${BUILD_NUMBER}/g deploy_app.yaml")
+        sh ("cat deploy_app.yaml")
 	      //sh ("kubectl apply -f deploy_app.yaml")
-        kubernetesDeploy( configs:'deploy_app.yaml',kubeconfigId:'kubernetes_config_cluster')
+        kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : k3s )
 		    //  enableConfigSubstitution: true)
 	      
       }
