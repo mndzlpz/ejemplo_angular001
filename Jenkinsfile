@@ -17,9 +17,9 @@ pipeline {
 
     stage('Building image') {
       steps{
-        echo "Construyendo Imagen: $nameImage"
+        echo "Construyendo Imagen: ${nameImage}"
         script {
-          dockerImage = docker.build "$nameImage"
+          dockerImage = docker.build "{$nameImage}"
         }
       }
     }
