@@ -26,7 +26,7 @@ pipeline {
     
     stage('Push Image-Registry') {
       steps{
-        echo 'Push Image... $BUILD_NUMBER'
+        echo "Push Image... $BUILD_NUMBER"
         script {
           docker.withRegistry( ecrurl, registryCredential ) {
             dockerImage.push("$BUILD_NUMBER")
@@ -46,13 +46,13 @@ pipeline {
       }
     }
 
-     stage('Remove Unused docker image') {
+     stage('Remove images') {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
         
-        sh "docker rmi $nameImage:$BUILD_NUMBER"
-        sh "docker rmi $registry:latest"
+        sh "docker rmi ${nameImage}:$BUILD_NUMBER"
+        sh "docker rmi ${nameImage}:latest"
 
       }
     }
