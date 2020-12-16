@@ -14,7 +14,7 @@ pipeline {
         //sh "kubectl config view"
         sh 'echo ${HOME}'
         echo "Push Image... $BUILD_NUMBER"
-        echo "Branch:  $BRANCH_NAME"
+        //echo "Branch:  $BRANCH_NAME"
       }
     }
 
