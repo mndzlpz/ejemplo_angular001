@@ -9,12 +9,14 @@ pipeline {
   agent any
   stages {
 
-    //stage('cmd prueba') {
-    //  steps{
-    //    sh "kubectl config view"
-    //    sh 'echo ${HOME}'
-    //  }
-    //}
+    stage('cmd prueba') {
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Push Image... $BUILD_NUMBER"
+        echo "Branch:  $BRANCH_NAME"
+      }
+    }
 
     stage('Building image') {
       steps{
@@ -36,19 +38,18 @@ pipeline {
         }
       }
     }
-    
+    /*
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
-        sh ("sed -i 's/IMAGEN-K3s/${nameImage}:${BUILD_NUMBER}/g' deploy_app.yaml")
-        sh ("cat deploy_app.yaml")
+
 	      sh ("kubectl apply -f deploy_app.yaml")
         //kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : k3s )
 		    //  enableConfigSubstitution: true)
 	      
       }
     }
-
+*/
      stage('Remove images') {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
