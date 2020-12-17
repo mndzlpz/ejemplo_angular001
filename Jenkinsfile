@@ -17,16 +17,11 @@ pipeline {
         
         echo "Branch:  $BRANCH_NAME"
 script {
-if (true) {
-                        stage ('Stage 1') {
-                            sh 'echo Stage 1'
-                        }
-                    }
-                    if (false) {
-                        stage ('Stage 2') {
-                            sh 'echo Stage 2'
-                        }
-                    }
+ if (env.BRANCH_NAME == 'master') {
+            echo 'I only execute on the master branch'
+        } else {
+            echo 'I execute elsewhere'
+        }
       }
       }
     }
