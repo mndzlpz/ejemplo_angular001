@@ -1,22 +1,20 @@
 pipeline {
   environment {
-
     nameImage = "mndzdocker/ejemplo-angular"
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
 
   }
+
   agent any
   stages {
-
-
 
     stage('cmd prueba') {
       steps{
         //sh "kubectl config view"
         sh 'echo ${HOME}'
-        echo "Ambiente Deploy-: ${ambiente}"
+        
         //echo "Branch:  $BRANCH_NAME"
       }
     }
