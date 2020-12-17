@@ -18,7 +18,7 @@ pipeline {
         echo "Branch:  $BRANCH_NAME"
 
         script {
-        if ($BRANCH_NAME == 'master') {
+        if (BRANCH_NAME == 'master') {
             echo 'I only execute on the master branch'
         } else {
             echo 'I execute elsewhere'
