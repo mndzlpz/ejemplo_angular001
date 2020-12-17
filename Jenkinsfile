@@ -1,20 +1,32 @@
 pipeline {
   environment {
-
     nameImage = "mndzdocker/ejemplo-angular"
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
+
   }
+
   agent any
   stages {
 
-    //stage('cmd prueba') {
-    //  steps{
-    //    sh "kubectl config view"
-    //    sh 'echo ${HOME}'
-    //  }
-    //}
+    stage('cmd prueba') {
+      steps{
+        //sh "kubectl config view"
+        //sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        echo "Branch:  $BRANCH_NAME"
+
+        script {
+        if (BRANCH_NAME == 'master') {
+            echo 'I only execute on the master branch'
+        } else {
+            echo 'I execute elsewhere'
+        }
+      }
+
+      }
+    }
 
     stage('Building image') {
       steps{
@@ -36,12 +48,11 @@ pipeline {
         }
       }
     }
-    
+
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
-        sh ("sed -i 's/IMAGEN-K3s/${nameImage}:${BUILD_NUMBER}/g' deploy_app.yaml")
-        sh ("cat deploy_app.yaml")
+
 	      sh ("kubectl apply -f deploy_app.yaml")
         //kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : k3s )
 		    //  enableConfigSubstitution: true)
