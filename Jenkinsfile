@@ -31,7 +31,7 @@ pipeline {
         }
       }
 
-      echo "Pipeline de:${nameImage} version: $BUILD_NUMBER"
+      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER"
 
       }
     }
