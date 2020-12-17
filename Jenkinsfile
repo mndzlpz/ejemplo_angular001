@@ -5,6 +5,8 @@ pipeline {
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
 
+    
+
   }
 
   agent any
@@ -20,15 +22,17 @@ pipeline {
         script {
         if (env.BRANCH_NAME == 'master') {
             echo 'I only execute on the master branch'
+            nameImage=nameImage+"_PROD"
         } else {
             echo 'I execute elsewhere'
+            nameImage=nameImage+"_DEV"
         }
       }
 
       }
     }
 
-    stage('Building image') {
+    stage("Building image:${nameImage}") {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
         script {
