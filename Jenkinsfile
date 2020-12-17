@@ -13,12 +13,12 @@ pipeline {
     stage('cmd prueba') {
       steps{
         //sh "kubectl config view"
-        //sh 'echo ${HOME}'
+        sh 'echo ${HOME}'
         echo "Build Number:  $BUILD_NUMBER"
-        echo "Branch:  $BRANCH_NAME"
+        //echo "Branch:  env.BRANCH_NAME"
 
         script {
-        if (BRANCH_NAME == 'master') {
+        if (env.BRANCH_NAME == 'master') {
             echo 'I only execute on the master branch'
         } else {
             echo 'I execute elsewhere'
