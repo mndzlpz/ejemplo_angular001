@@ -12,23 +12,12 @@ pipeline {
 
     stage('ambiente') {
        when {
-                branch 'master'
-            }
-            steps {
-                ambiente='PRODUCCION'
-            }
-       when {
-                branch 'Develop'
-            }
-            steps {
-                ambiente='DESARROLLO'
-            }
-       when {
-                branch 'QA'
-            }
-            steps {
-                ambiente='QA'
-            }          
+        branch 'master'
+      }
+      steps {
+        ambiente="PRODUCCION"
+      }
+             
     }
 
     stage('cmd prueba') {
