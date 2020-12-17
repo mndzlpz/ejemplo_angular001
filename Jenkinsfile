@@ -16,12 +16,17 @@ pipeline {
         sh 'echo ${HOME}'
         
         echo "Branch:  $BRANCH_NAME"
-        
-        if (env.BRANCH_NAME == 'master') {
-            echo 'I only execute on the master branch'
-        } else {
-            echo 'I execute elsewhere'
-        }
+
+if (true) {
+                        stage ('Stage 1') {
+                            sh 'echo Stage 1'
+                        }
+                    }
+                    if (false) {
+                        stage ('Stage 2') {
+                            sh 'echo Stage 2'
+                        }
+                    }
       }
     }
 
