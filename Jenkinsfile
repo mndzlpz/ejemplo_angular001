@@ -15,7 +15,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        echo "Branch:  $BRANCH_NAME"
+        echo "Branch:  Produccion"
       }
              
     }
@@ -25,7 +25,7 @@ pipeline {
         //sh "kubectl config view"
         sh 'echo ${HOME}'
         echo "Ambiente Deploy-: ${ambiente}"
-        echo "Branch:  $BRANCH_NAME"
+        //echo "Branch:  $BRANCH_NAME"
       }
     }
 
