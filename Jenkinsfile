@@ -32,7 +32,7 @@ pipeline {
       }
     }
 
-    stage("Building image:${nameImage}") {
+    stage('Building image:${nameImage}') {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
         script {
