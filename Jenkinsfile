@@ -5,17 +5,38 @@ pipeline {
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
+    ambiente=''
   }
   agent any
   stages {
+
+    stage('ambiente') {
+       when {
+                branch 'master'
+            }
+            steps {
+                ambiente='PRODUCCION'
+            }
+       when {
+                branch 'Develop'
+            }
+            steps {
+                ambiente='DESARROLLO'
+            }
+       when {
+                branch 'QA'
+            }
+            steps {
+                ambiente='QA'
+            }          
+    }
 
     stage('cmd prueba') {
       steps{
         //sh "kubectl config view"
         sh 'echo ${HOME}'
-        echo "Push Image... $BUILD_NUMBER"
-        echo "PRUEBA...$BUILD_NUMBER"
-        //echo "Branch:  $BRANCH_NAME"
+        echo "Ambiente Deploy-: ${ambiente}"
+        echo "Branch:  $BRANCH_NAME"
       }
     }
 
