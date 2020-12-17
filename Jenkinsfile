@@ -4,7 +4,7 @@ pipeline {
     registryCredential = 'e1dd5e3f-4b2a-4416-97e3-591570b879d7'
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
-
+    ambiente=""
     
 
   }
@@ -22,17 +22,21 @@ pipeline {
         script {
         if (env.BRANCH_NAME == 'master') {
             echo 'I only execute on the master branch'
-            nameImage=nameImage+"_PROD"
+            nameImage=nameImage+"_prod"
+            ambiente="Produccion"
         } else {
             echo 'I execute elsewhere'
-            nameImage=nameImage+"_DEV"
+            nameImage=nameImage+"_dev"
+            ambiente="Desarrollo"
         }
       }
+
+      echo "Pipeline de:${nameImage} version: $BUILD_NUMBER"
 
       }
     }
 
-    stage('Building image:${nameImage}') {
+    stage('Building image:') {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
         script {
