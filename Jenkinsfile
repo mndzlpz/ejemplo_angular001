@@ -16,7 +16,7 @@ pipeline {
         sh 'echo ${HOME}'
         
         echo "Branch:  $BRANCH_NAME"
-
+script {
 if (true) {
                         stage ('Stage 1') {
                             sh 'echo Stage 1'
@@ -27,6 +27,7 @@ if (true) {
                             sh 'echo Stage 2'
                         }
                     }
+      }
       }
     }
 
