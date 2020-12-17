@@ -13,7 +13,7 @@ pipeline {
     stage('cmd prueba') {
       steps{
         //sh "kubectl config view"
-        //sh 'echo ${HOME}'
+        sh 'echo ${HOME}'
         echo "Build Number:  $BUILD_NUMBER"
         //echo "Branch:  env.BRANCH_NAME"
 
