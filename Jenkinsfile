@@ -13,10 +13,10 @@ pipeline {
     stage('cmd prueba') {
       steps{
         //sh "kubectl config view"
-        sh 'echo ${HOME}'
-        
+        //sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
         echo "Branch:  $BRANCH_NAME"
-        /*
+
         script {
         if ($BRANCH_NAME == 'master') {
             echo 'I only execute on the master branch'
@@ -24,7 +24,7 @@ pipeline {
             echo 'I execute elsewhere'
         }
       }
-      */
+
       }
     }
 
@@ -48,7 +48,7 @@ pipeline {
         }
       }
     }
-    /*
+
     stage("Deploy App K8S"){
       steps{
         echo 'Deploy K8S...'
@@ -59,7 +59,7 @@ pipeline {
 	      
       }
     }
-*/
+
      stage('Remove images') {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
