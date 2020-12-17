@@ -15,7 +15,7 @@ pipeline {
         //sh "kubectl config view"
         sh 'echo ${HOME}'
         
-        //echo "Branch:  $BRANCH_NAME"
+        echo "Branch:  $BRANCH_NAME"
       }
     }
 
