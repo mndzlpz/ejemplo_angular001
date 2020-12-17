@@ -15,7 +15,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        ${ambiente}="PRODUCCION"
+        echo "Branch:  $BRANCH_NAME"
       }
              
     }
