@@ -65,7 +65,7 @@ pipeline {
         echo 'Deploy K8S...'
 
 	      //sh ("kubectl apply -f deploy_app.yaml")
-        kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : K3s_connect, enableConfigSubstitution: true)
+        kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : kubernetes_k3s, enableConfigSubstitution: true)
 	      
       }
     }
