@@ -32,10 +32,9 @@ pipeline {
       }
 
       echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER"
-      sshagent(['ssh_k3s']) {
-        sh "ssh azureuser@52.150.16.236 hostname"
-    
-      }
+      //sshagent(['ssh_k3s']) {
+      //  sh "ssh azureuser@52.150.16.236 hostname"
+      //}
 
       }
     }
