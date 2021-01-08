@@ -12,7 +12,17 @@ pipeline {
   agent any
   stages {
 
-    stage('cmd prueba') {
+
+    stage('Checkout') {
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        //echo "Branch:  env.BRANCH_NAME"
+      }
+    }
+
+    stage('Set Environment') {
       steps{
         //sh "kubectl config view"
         sh 'echo ${HOME}'
@@ -39,7 +49,7 @@ pipeline {
       }
     }
 
-    stage('Building image:') {
+    stage('Build') {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
         script {
@@ -48,7 +58,7 @@ pipeline {
       }
     }
     
-    stage('Push Image-Registry') {
+    stage('Publish') {
       steps{
         echo "Push Image... $BUILD_NUMBER"
         script {
@@ -60,7 +70,7 @@ pipeline {
       }
     }
 
-    stage("Deploy App K8S"){
+    stage("Deploy K8S"){
       steps{
         echo 'Deploy K8S...'
 
@@ -70,7 +80,7 @@ pipeline {
       }
     }
 
-     stage('Remove images') {
+     stage('Clean') {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
