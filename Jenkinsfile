@@ -49,7 +49,8 @@ pipeline {
       }
     }
 
-parallel {
+stage('Test') {
+  stages {
 stage('Test 1') {
       steps{
         //sh "kubectl config view"
@@ -67,6 +68,7 @@ stage('Test 2') {
       }
     }    
 
+}
 }
 
     stage('Build') {
