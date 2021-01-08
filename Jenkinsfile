@@ -49,9 +49,15 @@ pipeline {
       }
     }
 
-stage('Test') {
-  stages {
-stage('Test 1') {
+//stage('Test') {
+//stages {  
+parallel{
+  
+stage('Test-1') {
+  agent {
+                        label "for-Test-1"
+                    }
+  
       steps{
         //sh "kubectl config view"
         sh 'echo ${HOME}'
@@ -59,7 +65,10 @@ stage('Test 1') {
         //echo "Branch:  env.BRANCH_NAME"
       }
     }
-stage('Test 2') {
+stage('Test-2') {
+  agent {
+                        label "for-Test-2"
+                    }
       steps{
         //sh "kubectl config view"
         sh 'echo ${HOME}'
@@ -69,7 +78,7 @@ stage('Test 2') {
     }    
 
 }
-}
+
 
     stage('Build') {
       steps{
