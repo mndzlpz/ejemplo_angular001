@@ -49,6 +49,28 @@ pipeline {
       }
     }
 
+
+    stage('Test') {
+      steps{
+        stage('Test 1') {
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        //echo "Branch:  env.BRANCH_NAME"
+      }
+    }
+    stage('Test 2') {
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        //echo "Branch:  env.BRANCH_NAME"
+      }
+    }
+      }
+    }
+
     stage('Build') {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
