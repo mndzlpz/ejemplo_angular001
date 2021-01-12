@@ -5,6 +5,7 @@ pipeline {
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
     ambiente=""
+    config_cluster="/var/lib/jenkins/.kube/"
     
 
   }
@@ -12,7 +13,17 @@ pipeline {
   agent any
   stages {
 
-    stage('cmd prueba') {
+
+    stage('Checkout') {
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        //echo "Branch:  env.BRANCH_NAME"
+      }
+    }
+
+    stage('Set Environment') {
       steps{
         //sh "kubectl config view"
         sh 'echo ${HOME}'
@@ -24,23 +35,50 @@ pipeline {
             echo 'I only execute on the master branch'
             nameImage=nameImage+"_prod"
             ambiente="Produccion"
+            config_cluster="${config_cluster}config_prod"
         } else {
             echo 'I execute elsewhere'
             nameImage=nameImage+"_dev"
             ambiente="Desarrollo"
+            config_cluster="${config_cluster}config_dev"
         }
       }
 
-      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER"
-      sshagent(['ssh_k3s']) {
-        sh "ssh azureuser@52.150.16.236 hostname"
-    
-      }
+      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${config_cluster}"
+      //sshagent(credentials:['ssh_k3s']) {
+      //  sh 'ssh azureuser@52.150.16.236 hostname'
+      //}
 
       }
     }
 
-    stage('Building image:') {
+//stage('Test') {
+//stages {  
+//parallel{
+  
+stage('Code Analysis') {
+ 
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        //echo "Branch:  env.BRANCH_NAME"
+      }
+    }
+stage('Testing') {
+
+      steps{
+        //sh "kubectl config view"
+        sh 'echo ${HOME}'
+        echo "Build Number:  $BUILD_NUMBER"
+        //echo "Branch:  env.BRANCH_NAME"
+      }
+    }    
+
+
+  
+
+    stage('Build') {
       steps{
         echo "Construyendo Imagen: ${nameImage}"
         script {
@@ -49,7 +87,7 @@ pipeline {
       }
     }
     
-    stage('Push Image-Registry') {
+    stage('Publish') {
       steps{
         echo "Push Image... $BUILD_NUMBER"
         script {
@@ -61,17 +99,20 @@ pipeline {
       }
     }
 
-    stage("Deploy App K8S"){
+    stage("Deploy K8S"){
       steps{
-        echo 'Deploy K8S...'
 
-	      //sh ("kubectl apply -f deploy_app.yaml")
-        kubernetesDeploy( configs : "deploy_app.yaml" , kubeconfigId : K3s_connect, enableConfigSubstitution: true)
-	      
+        
+        echo "Deploy K8S...: ${config_cluster}"
+        //sh 'echo ${KUBECONFIG}'
+
+        sh ("kubectl --kubeconfig ${config_cluster} config view")
+	      sh ("kubectl --kubeconfig ${config_cluster} apply -f deploy_app.yaml")
+        //kubernetesDeploy( configs : 'deploy_app.yaml' , kubeconfigId : 'config_K3s', enableConfigSubstitution: true)
       }
     }
 
-     stage('Remove images') {
+     stage('Clean') {
       steps{
         //echo "Borrando Imagen: docker rmi ${registry}:$BUILD_NUMBER"
         //sh "docker rmi ${registry}:$BUILD_NUMBER"
