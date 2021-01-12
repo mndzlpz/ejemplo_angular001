@@ -1,3 +1,15 @@
+def getKubernetesConfig(branch) {
+  def tmpKubernetesConfig = "/var/lib/jenkins/.kube/"
+  if (branch == 'Develop') {
+    tmpKubernetesConfig = "${tmpKubernetesConfig}config_dev"
+  } else if (branch == 'qa'){
+    tmpKubernetesConfig = "${tmpKubernetesConfig}config_qa"
+  } else if (branch == 'master'){
+    tmpKubernetesConfig = "${tmpKubernetesConfig}config_prod"
+  }
+  return tmpKubernetesConfig
+}
+
 pipeline {
   environment {
     nameImage = "mndzdocker/ejemplo-angular"
@@ -6,7 +18,7 @@ pipeline {
     k3s ='kubernetes_config_cluster'
     ambiente=""
     config_cluster="/var/lib/jenkins/.kube/"
-    
+    nameKubeConfig = getKubernetesConfig(env.GIT_BRANCH)
 
   }
 
@@ -28,7 +40,10 @@ pipeline {
         //sh "kubectl config view"
         sh 'echo ${HOME}'
         echo "Build Number:  $BUILD_NUMBER"
-        //echo "Branch:  env.BRANCH_NAME"
+
+        
+        echo "Branch:  ${env.BRANCH_NAME}"
+        echo "Branch:  ${nameKubeConfig}"
 
         script {
         if (env.BRANCH_NAME == 'master') {
@@ -43,8 +58,9 @@ pipeline {
             config_cluster="${config_cluster}config_dev"
         }
       }
-
-      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${config_cluster}"
+      
+      //echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${config_cluster}"
+      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${nameKubeConfig}"
       //sshagent(credentials:['ssh_k3s']) {
       //  sh 'ssh azureuser@52.150.16.236 hostname'
       //}
@@ -103,11 +119,11 @@ stage('Testing') {
       steps{
 
         
-        echo "Deploy K8S...: ${config_cluster}"
+        echo "Deploy K8S...:"
         //sh 'echo ${KUBECONFIG}'
 
-        sh ("kubectl --kubeconfig ${config_cluster} config view")
-	      sh ("kubectl --kubeconfig ${config_cluster} apply -f deploy_app.yaml")
+        sh ("kubectl --kubeconfig ${nameKubeConfig} config view")
+	      sh ("kubectl --kubeconfig ${nameKubeConfig} apply -f deploy_app.yaml")
         //kubernetesDeploy( configs : 'deploy_app.yaml' , kubeconfigId : 'config_K3s', enableConfigSubstitution: true)
       }
     }
