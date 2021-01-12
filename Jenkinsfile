@@ -5,6 +5,7 @@ pipeline {
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
     ambiente=""
+    config_cluster=""
     
 
   }
@@ -34,14 +35,16 @@ pipeline {
             echo 'I only execute on the master branch'
             nameImage=nameImage+"_prod"
             ambiente="Produccion"
+            config_cluster="config_prod"
         } else {
             echo 'I execute elsewhere'
             nameImage=nameImage+"_dev"
             ambiente="Desarrollo"
+            config_cluster="config_dev"
         }
       }
 
-      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER"
+      echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${config_cluster}"
       //sshagent(credentials:['ssh_k3s']) {
       //  sh 'ssh azureuser@52.150.16.236 hostname'
       //}
@@ -98,11 +101,13 @@ stage('Testing') {
 
     stage("Deploy K8S"){
       steps{
-        echo 'Deploy K8S...'
-        sh 'echo ${KUBECONFIG}'
 
-        sh ("kubectl config view")
-	      sh ("kubectl apply -f deploy_app.yaml")
+        
+        echo "Deploy K8S...: ${config_cluster}"
+        //sh 'echo ${KUBECONFIG}'
+
+        sh ("kubectl --kubeconfig ${config_cluster} config view")
+	      sh ("kubectl --kubeconfig ${config_cluster} apply -f deploy_app.yaml")
         //kubernetesDeploy( configs : 'deploy_app.yaml' , kubeconfigId : 'config_K3s', enableConfigSubstitution: true)
       }
     }
