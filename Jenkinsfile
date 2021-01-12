@@ -99,8 +99,8 @@ stage('Testing') {
     stage("Deploy K8S"){
       steps{
         echo 'Deploy K8S...'
+        sh 'echo ${KUBECONFIG}'
 
-        sh ('echo $KUBECONFIG')
         sh ("kubectl config view")
 	      sh ("kubectl apply -f deploy_app.yaml")
         //kubernetesDeploy( configs : 'deploy_app.yaml' , kubeconfigId : 'config_K3s', enableConfigSubstitution: true)
