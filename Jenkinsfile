@@ -41,8 +41,8 @@ pipeline {
         echo "Build Number:  $BUILD_NUMBER"
 
         
-        echo "Branch:  env.BRANCH_NAME"
-        echo "Branch:  env.GIT_BRANCH"
+        echo "Branch:  ${env.BRANCH_NAME}"
+        echo "Branch:  ${env.GIT_BRANCH}"
 
         script {
         if (env.BRANCH_NAME == 'master') {
