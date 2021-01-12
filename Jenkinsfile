@@ -42,9 +42,9 @@ pipeline {
       }
 
       echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER"
-      //sshagent(['ssh_k3s']) {
-      //  sh "ssh azureuser@52.150.16.236 hostname"
-      //}
+      sshagent(['ssh_k3s']) {
+        sh "ssh azureuser@52.150.16.236 hostname"
+      }
 
       }
     }
@@ -102,7 +102,6 @@ stage('Testing') {
 
 	      sh ("kubectl apply -f deploy_app.yaml")
         //kubernetesDeploy( configs : 'deploy_app.yaml' , kubeconfigId : 'config_K3s', enableConfigSubstitution: true)
-	      
       }
     }
 
