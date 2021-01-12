@@ -5,7 +5,7 @@ pipeline {
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
     ambiente=""
-    config_cluster=""
+    config_cluster="/var/lib/jenkins/.kube/"
     
 
   }
@@ -35,12 +35,12 @@ pipeline {
             echo 'I only execute on the master branch'
             nameImage=nameImage+"_prod"
             ambiente="Produccion"
-            config_cluster="config_prod"
+            config_cluster="${config_cluster}config_prod"
         } else {
             echo 'I execute elsewhere'
             nameImage=nameImage+"_dev"
             ambiente="Desarrollo"
-            config_cluster="config_dev"
+            config_cluster="${config_cluster}config_dev"
         }
       }
 
