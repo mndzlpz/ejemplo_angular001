@@ -1,3 +1,14 @@
+def getKubernetesConfig(branch) {
+  if (branch == 'development') {
+    return 'Development'
+  } else if (branch == 'qa'){
+    return 'Development'
+  } else if (branch == 'master'){
+    return 'Release'
+  }
+  return ''
+}
+
 pipeline {
   environment {
     nameImage = "mndzdocker/ejemplo-angular"
@@ -6,7 +17,7 @@ pipeline {
     k3s ='kubernetes_config_cluster'
     ambiente=""
     config_cluster="/var/lib/jenkins/.kube/"
-    
+    //imageNameBuild = getKubernetesNamespace(env.GIT_BRANCH)
 
   }
 
@@ -28,7 +39,10 @@ pipeline {
         //sh "kubectl config view"
         sh 'echo ${HOME}'
         echo "Build Number:  $BUILD_NUMBER"
-        //echo "Branch:  env.BRANCH_NAME"
+
+        
+        echo "Branch:  env.BRANCH_NAME"
+        echo "Branch:  env.GIT_BRANCH"
 
         script {
         if (env.BRANCH_NAME == 'master') {
