@@ -72,6 +72,7 @@ pipeline {
 //stage('Test') {
 //stages {  
 //parallel{
+  /*
   
 stage('Code Analysis') {
  
@@ -92,7 +93,7 @@ stage('Testing') {
       }
     }    
 
-
+*/
   
 
     stage('Build') {
