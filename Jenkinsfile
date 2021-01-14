@@ -1,6 +1,6 @@
 def getKubernetesConfig(branch) {
   def tmpKubernetesConfig = "/var/lib/jenkins/.kube/"
-  if (branch == 'Develop') {
+  if (branch == 'development') {
     tmpKubernetesConfig = "${tmpKubernetesConfig}config_dev"
   } else if (branch == 'qa'){
     tmpKubernetesConfig = "${tmpKubernetesConfig}config_qa"
@@ -17,7 +17,6 @@ pipeline {
     dockerImage = ''
     k3s ='kubernetes_config_cluster'
     ambiente=""
-    config_cluster="/var/lib/jenkins/.kube/"
     nameKubeConfig = getKubernetesConfig(env.GIT_BRANCH)
 
   }
@@ -28,39 +27,41 @@ pipeline {
 
     stage('Checkout') {
       steps{
-        //sh "kubectl config view"
+
         sh 'echo ${HOME}'
         echo "Build Number:  $BUILD_NUMBER"
-        //echo "Branch:  env.BRANCH_NAME"
+        echo "Branch:  ${env.BRANCH_NAME}"
+        echo "Branch:  ${nameKubeConfig}"
+
       }
     }
 
     stage('Set Environment') {
       steps{
-        //sh "kubectl config view"
-        sh 'echo ${HOME}'
-        echo "Build Number:  $BUILD_NUMBER"
-
-        
-        echo "Branch:  ${env.BRANCH_NAME}"
-        echo "Branch:  ${nameKubeConfig}"
 
         script {
         if (env.BRANCH_NAME == 'master') {
             echo 'I only execute on the master branch'
             nameImage=nameImage+"_prod"
             ambiente="Produccion"
-            config_cluster="${config_cluster}config_prod"
-        } else {
+
+        } else if (env.BRANCH_NAME == 'qa'){
+            echo 'I execute elsewhere'
+            nameImage=nameImage+"_qa"
+            ambiente="Calidad"
+
+        } else if (env.BRANCH_NAME == 'development'){
             echo 'I execute elsewhere'
             nameImage=nameImage+"_dev"
             ambiente="Desarrollo"
-            config_cluster="${config_cluster}config_dev"
+
         }
+
       }
       
-      //echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${config_cluster}"
+      
       echo "Pipeline de: ${ambiente} version: $BUILD_NUMBER sobre el archivo de configuracion:  ${nameKubeConfig}"
+      
       //sshagent(credentials:['ssh_k3s']) {
       //  sh 'ssh azureuser@52.150.16.236 hostname'
       //}
